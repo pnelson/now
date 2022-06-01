@@ -1,6 +1,6 @@
 # now
 
-Live in the present.
+Live in the present. Otherwise, try [when](https://github.com/pnelson/when).
 
 ```sh
 $ now
