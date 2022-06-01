@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 	"time"
@@ -21,7 +20,6 @@ var (
 )
 
 func init() {
-	log.SetFlags(0)
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage: %s [OPTIONS]\n\n", os.Args[0])
 		flag.PrintDefaults()
@@ -39,28 +37,17 @@ func main() {
 		fmt.Println(now.Unix())
 		return
 	}
+	timezones := strings.Split(*l, ",")
 	if *u {
-		now = now.UTC()
-		switch {
-		case *rfc3339:
-			fmt.Println(now.Format(time.RFC3339))
-		case *l == "Local", *l == "UTC", *l == "":
-			fmt.Println(now.Format(*f))
-		default:
-			flag.Usage()
-			os.Exit(2)
-		}
-		return
+		timezones = []string{"UTC"}
 	}
 	if *rfc3339 {
-		fmt.Println(now.Format(time.RFC3339))
-		return
+		*f = time.RFC3339
 	}
-	timezones := strings.Split(*l, ",")
 	for _, tz := range timezones {
 		loc, err := time.LoadLocation(tz)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 		}
 		fmt.Println(now.In(loc).Format(*f))
 	}
