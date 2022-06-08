@@ -37,7 +37,7 @@ func main() {
 		fmt.Println(now.Unix())
 		return
 	}
-	timezones := strings.Split(*l, ",")
+	timezones := strings.Split(*l, ";")
 	if *u {
 		timezones = []string{"UTC"}
 	}
